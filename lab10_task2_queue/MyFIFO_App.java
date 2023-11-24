@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-public class MyLIFO_App {
+public class MyFIFO_App {
 	// method stutter that accepts a queue of integers as a parameter and replaces
 	// every element of the queue with two copies of that element
 	// front [1, 2, 3] back
