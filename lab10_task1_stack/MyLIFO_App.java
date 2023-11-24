@@ -1,5 +1,6 @@
 package lab10_task1_stack;
 
+import java.util.Arrays;
 import java.util.Stack;
 
 public class MyLIFO_App {
@@ -38,14 +39,11 @@ public class MyLIFO_App {
 	// This method evaluates the value of anexpression
 	// i.e. 51 + (54 *(3+2)) = 321
 	public static int evaluateExpression(String expression) {
-
-		expression.trim();
+		expression = expression.replaceAll("\\s+","");
 		Stack<Integer> operands = new Stack<>();
 		Stack<Character> operators = new Stack<>();
-//		for (Character c : expression.toCharArray()) {
 		for (int i = 0; i < expression.length(); i++) {
 			char c = expression.charAt(i);
-
 			if (Character.isDigit(c)) {
 				String s = c + "";
 				while (i + 1 < expression.length() && Character.isDigit(expression.charAt(i + 1))) {
@@ -54,6 +52,10 @@ public class MyLIFO_App {
 				operands.push(Integer.valueOf(s));
 
 			} else if (c == '+' || c == '-' || c == '*' || c == '/') {
+
+				if(c == '-' && (i ==0 || expression.charAt(i - 1) == '(')){
+                    operands.push(0);
+                }
 
 				while (!operators.isEmpty() && hasPrecedence(operators.peek()) >= hasPrecedence(c)) {
 					calculate(operands, operators);
@@ -115,14 +117,26 @@ public class MyLIFO_App {
 	}
 
 	public static void main(String[] args) {
-//		Integer[] arr = { 1, 2, 3, 4 };
-//		reserve(arr);
-////		System.out.println(Arrays.toString(arr));
-//		String s = "()(())[]{(())}";
-//		String s2 = "){[]}()";
-//		System.out.println(isCorrect(s));
-//		System.out.println(isCorrect(s2));
-		System.out.println(evaluateExpression("51 + (54 *(3+2))"));
+		Integer[] arr = { 1, 2, 3, 4 };
+		reserve(arr);
+		System.out.println(Arrays.toString(arr));
+		String s = "()     (())[]{(())}";
+		String s2 = "){[]}()";
+		System.out.println(isCorrect(s));
+		System.out.println(isCorrect(s2));
+		System.out.println(evaluateExpression("  51 - (   54 *(3+2))"));
+		System.out.println(51 - (54 * (3 + 2)));
+		System.out.println(evaluateExpression("1-(-2)"));
+		System.out.println(evaluateExpression("-1-(-2)"));
+		System.out.println(evaluateExpression("5-1-(-2)"));
+		System.out.println(evaluateExpression("-(-2)"));
+		System.out.println(evaluateExpression("(5+2)-3"));
+		System.out.println(evaluateExpression("(1-(3-4))"));
+		System.out.println(evaluateExpression("2-4-(8+2-6+(8+4-(1)+8-10))"));
+		System.out.println(evaluateExpression("-(-(4+5))"));
+		System.out.println(evaluateExpression("-(3-(-(4+5)))"));
+		System.out.println(evaluateExpression("-(3-(       - (4+5)))"));
 
 	}
+
 }
